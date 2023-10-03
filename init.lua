@@ -54,6 +54,16 @@ return {
     servers = {
       -- "pyright"
     },
+    config = {
+      tsserver = {
+        init_options = {
+          preferences = {
+            importModuleSpecifierPreference = 'relative',
+            importModuleSpecifierEnding = 'minimal'
+          }
+        }
+      }
+    }
   },
 
   -- Configure require("lazy").setup() options

@@ -11,22 +11,6 @@ return {
         "tsserver",
         "angularls",
       })
-      opts.handlers = {
-        function(server_name)
-          require("lspconfig")[server_name].setup {}
-        end,
-        ["tsserver"] = function ()
-          require("lspconfig").tsserver.setup({
-            init_options = {
-              preferences = {
-                -- other preferences... 
-                importModuleSpecifierPreference = 'relative',
-                importModuleSpecifierEnding = 'minimal',
-              },
-            }
-          })
-        end
-      }
     end,
   },
   -- use mason-null-ls to configure Formatters/Linter installation for null-ls sources
