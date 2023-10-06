@@ -94,14 +94,6 @@ return {
     --   },
     -- }
     --
-    -- formatting i don't need it :(
-    -- vim.api.nvim_create_autocmd("BufWritePre", {
-    --   pattern = { "*.ts", "*.tsx" },
-    --   callback = function()
-    --     vim.lsp.buf.format({ timeout = 3000 })
-    --   end
-    -- })
---
 
     vim.api.nvim_create_autocmd("BufWritePre", {
       pattern = { "*.ts", "*.tsx" },
