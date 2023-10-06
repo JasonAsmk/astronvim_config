@@ -33,17 +33,17 @@ return {
       format_on_save = {
         enabled = true,     -- enable or disable format on save globally
         allow_filetypes = { -- enable format on save for specified filetypes only
-          "typescript",
           "html",
           "scss",
+          "ts",
+          "tsx",
+          "js",
+          "jsx"
         },
         ignore_filetypes = { -- disable format on save for specified filetypes
           -- "python",
+          --
         },
-      },
-      disabled = { -- disable formatting capabilities for the listed language servers
-        -- disable lua_ls formatting capability if you want to use StyLua to format your lua code
-        -- "lua_ls",
       },
       timeout_ms = 1000, -- default format timeout
       -- filter = function(client) -- fully override the default formatting function
@@ -93,5 +93,36 @@ return {
     --     ["~/%.config/foo/.*"] = "fooscript",
     --   },
     -- }
+    --
+    -- formatting i don't need it :(
+    -- vim.api.nvim_create_autocmd("BufWritePre", {
+    --   pattern = { "*.ts", "*.tsx" },
+    --   callback = function()
+    --     vim.lsp.buf.format({ timeout = 3000 })
+    --   end
+    -- })
+--
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = { "*.ts", "*.tsx" },
+      callback = function()
+        local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding(0))
+        -- https://microsoft.github.io/language-server-protocol/specifications/specification-3-15/#codeActionContext
+        params.context = { only = { "source.organizeImports" }, diagnostics = {} }
+
+        local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
+        for _, res in pairs(result or {}) do
+          for _, r in pairs(res.result or {}) do
+            if r.edit then
+              vim.lsp.util.apply_workspace_edit(r.edit, vim.lsp.util._get_offset_encoding(0))
+            else
+              vim.lsp.buf.execute_command(r.command)
+            end
+          end
+        end
+        -- vim.lsp.buf.format()
+      end
+    })
+
   end,
 }
