@@ -54,7 +54,8 @@ return {
     },
     -- enable servers that you already have installed without mason
     servers = {
-      "nil_ls"
+      "nil_ls",
+      "lua_ls"
     },
     config = {
       tsserver = {
