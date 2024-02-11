@@ -9,4 +9,20 @@ return {
   --     require("lsp_signature").setup()
   --   end,
   -- },
+  --
+  {
+    "Skullamortis/forest.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+    config = function()
+      vim.o.background = "light"
+    end
+  },
 }

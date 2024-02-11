@@ -18,7 +18,7 @@ return {
   },
 
   -- Set colorscheme to use
-  colorscheme = "astrolight",
+  colorscheme = "oxocarbon",
 
   -- Diagnostics configuration (for vim.diagnostics.config({...})) when diagnostics are on
   diagnostics = {
@@ -31,7 +31,7 @@ return {
     formatting = {
       -- control auto formatting on save
       format_on_save = {
-        enabled = true,     -- enable or disable format on save globally
+        enabled = false,     -- enable or disable format on save globally
         allow_filetypes = { -- enable format on save for specified filetypes only
           "html",
           "scss",
@@ -107,7 +107,7 @@ return {
       callback = function()
         local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding(0))
         -- https://microsoft.github.io/language-server-protocol/specifications/specification-3-15/#codeActionContext
-        params.context = { only = { "source.organizeImports" }, diagnostics = {} }
+        params.context = { only = { "source.organizeImports", "source.removeUnusedImports" }, diagnostics = {} }
 
         local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
         for _, res in pairs(result or {}) do
@@ -119,7 +119,7 @@ return {
             end
           end
         end
-        -- vim.lsp.buf.format()
+        vim.lsp.buf.format()
       end
     })
 
